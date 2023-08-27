@@ -92,3 +92,37 @@ You will get the next response:
     }
 ]
 ```
+
+If you use the incorrect loggin in the request
+```bash
+curl --location 'localhost:8080/public/api/repo' \
+--header 'Content-Type: application/json' \
+--data '{
+    "userName":"MagniLame"
+}'
+```
+
+you will get the next response:
+
+```json
+{
+    "message": "Repository with name MagniLame does not exist",
+    "status": "404 NOT_FOUND"
+}
+```
+
+If you use the incorrect type in the request:
+```bash
+curl --location 'localhost:8080/public/api/repo' \
+--header 'Content-Type: application/xml' \
+--data '{
+    "userName":"MagniLame"
+}'
+```
+you will get the next response:
+```json
+{
+    "message": "Please use a correct content type.",
+    "status": "406 NOT_ACCEPTABLE"
+}
+```
