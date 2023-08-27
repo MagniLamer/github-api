@@ -18,6 +18,9 @@ import java.util.logging.Logger
 private const val REPO_GETTING = "/users/%s/repos"
 private const val BRANCHES_POSTFIX = "/repos/%s/%s/branches"
 
+/**
+ *Makes the response
+ */
 @Service
 class GitHubReposService(
     private val customObjectMapper: ObjectMapper,
@@ -25,6 +28,9 @@ class GitHubReposService(
 ) {
     private val logger = Logger.getLogger(GitHubReposService::class.java.name)
 
+    /**
+     * Gets the response from the @RequestToGitHubService
+     */
     fun processRequest(requestBody: String): ResponseEntity<String> {
         val consumerName = customObjectMapper.readValue(requestBody, Consumer::class.java).name
         val repositoriesPostfix = format(REPO_GETTING, consumerName)
@@ -89,6 +95,9 @@ class GitHubReposService(
         return ResponseEntity<String>(finalResponse, response.response.statusCode)
     }
 
+    /**
+     * Handles the request with invalid content type
+     */
     fun handleInvalidContentType(): ResponseEntity<String> {
         val statusCode = HttpStatusCode.valueOf(406)
         val finalResponse = customObjectMapper.writeValueAsString(

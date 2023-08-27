@@ -3,7 +3,6 @@ package my.project.test.githubapi.webClient
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.util.MultiValueMap
-import org.springframework.web.reactive.function.client.ClientResponse
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import reactor.netty.http.client.HttpClientRequest
@@ -16,6 +15,9 @@ class WebClientServiceImpl(
     private val webClient: WebClient
 ) : WebClientService {
 
+    /**
+     * Performs the GET request to the GitHub API to get the repositories of the current user
+     */
     override fun performGetRequest(
         apiUrl: String,
         headers: MultiValueMap<String, String>?
@@ -31,7 +33,7 @@ class WebClientServiceImpl(
             }
             .acceptCharset(StandardCharsets.UTF_8)
             .retrieve()
-            .onStatus(HttpStatus::isError){ Mono.empty() }
+            .onStatus(HttpStatus::isError) { Mono.empty() }
             .toEntity(String::class.java)
             .flatMap {
                 Mono.justOrEmpty(ResponseDetails(it))
